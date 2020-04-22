@@ -1,14 +1,18 @@
-N, K = gets.chomp.split.map(&:to_i)
-nums = (0..N).to_a
-
-big = nums.slice((N-K+1)..N).sum
-small = nums.slice(0..(K-1)).sum
-diff = big - small + 1
-
-((K+1)..(N+1)).each do |k|
-  big += nums[-k]
-  small += nums[k-1]
-  diff += big - small + 1
+# 1ずつ増える等差数列の和を返す
+# rが右端、lが右端
+def sum(l, r)
+  (l+r)*(r-l+1)/2
 end
-puts diff
+
+B = 10**9 +7
+N, K = gets.chomp.split.map(&:to_i)
+
+ans = 0
+K.upto(N+1) do |k|
+  r_sum = sum(N+1-k, N)
+  l_sum = sum(0, k-1)
+  ans += r_sum - l_sum + 1
+  ans = ans.modulo(B)
+end
+puts ans
 
